@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard Chef - OCP Group</title>
+
+    <style>
+        /* Reset & base */
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            min-height:100vh; position:relative; color:#333;
+        }
+        body::before{
+            content:''; position:fixed; inset:0;
+            background:url("/static/images/slider_1_home_page2.jpg") no-repeat center/cover;
+            opacity:.1; z-index:-1;
+        }
+
+        /* Header */
+        .top-header{
+            background: rgba(255,255,255,.95);
+            backdrop-filter: blur(15px);
+            border-bottom:1px solid rgba(255,255,255,.2);
+            padding:15px 0; position:sticky; top:0; z-index:100;
+            box-shadow:0 4px 30px rgba(0,0,0,.1);
+        }
+        .top-header-content{
+            max-width:1400px; margin:0 auto; padding:0 20px;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .brand-info{display:flex;align-items:center;gap:15px}
+        .logo-mini img{height:40px}
+        .user-welcome{display:flex;align-items:center;gap:15px}
+        .chef-badge{
+            background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%); color:#fff;
+            padding:8px 16px;border-radius:20px;font-weight:600;font-size:12px;
+            box-shadow:0 4px 15px rgba(79,172,254,.3);
+        }
+        .home-link{
+            color:#4facfe; text-decoration:none; font-weight:500;
+            padding:8px 16px;border-radius:20px;background:rgba(79,172,254,.1);
+            transition:all .3s;
+        }
+        .home-link:hover{transform:translateY(-1px); background:rgba(79,172,254,.2)}
+
+        /* Main container */
+        .main-container{max-width:1400px;margin:0 auto;padding:30px 20px}
+        .dashboard-header{text-align:center;margin-bottom:40px}
+        .dashboard-title{font-size:3rem;font-weight:800;color:#fff;margin-bottom:10px;text-shadow:2px 2px 8px rgba(0,0,0,.3)}
+        .dashboard-subtitle{color:rgba(255,255,255,.9);font-size:18px;font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,.3)}
+
+        /* Card */
+        .user-info-card, .collaborateurs-section{
+            background: rgba(255,255,255,.95);backdrop-filter:blur(20px);
+            border-radius:25px;padding:30px;margin-bottom:30px;
+            box-shadow:0 20px 60px rgba(0,0,0,.2); border:1px solid rgba(255,255,255,.3);
+        }
+
+        .user-details{display:grid;grid-template-columns:auto 1fr;gap:25px;align-items:center;margin-bottom:25px}
+        .user-avatar{
+            width:100px;height:100px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-size:36px;font-weight:700;
+            background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);
+            box-shadow:0 10px 30px rgba(79,172,254,.4);border:4px solid rgba(255,255,255,.9);
+        }
+        .user-name{font-size:28px;font-weight:700;color:#333;margin-bottom:8px}
+
+        .user-details-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+        .detail-item{background:rgba(79,172,254,.1);padding:20px;border-radius:15px;border-left:4px solid #4facfe;transition:all .3s}
+        .detail-item:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(79,172,254,.2)}
+        .detail-label{font-weight:600;color:#666;font-size:14px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+        .detail-value{font-weight:700;color:#333;font-size:18px}
+
+        /* Table */
+        .table-container{overflow-x:auto;border-radius:15px;box-shadow:0 10px 40px rgba(0,0,0,.1)}
+        table.table{width:100%;border-collapse:collapse;background:#fff;border-radius:15px;overflow:hidden}
+        .table th{background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);color:#fff;padding:20px 15px;text-align:left;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.5px}
+        .table td{padding:18px 15px;border-bottom:1px solid #f0f8ff;vertical-align:middle;transition:all .3s}
+        .table tr:hover{background:#f0f8ff;transform:scale(1.01)}
+        .empty-state{text-align:center;padding:60px 20px;color:#666;font-style:italic}
+
+        /* Actions & modals */
+        .btn-action{border:none;padding:6px 10px;margin:0 2px;border-radius:6px;cursor:pointer;font-size:14px;transition:all .2s}
+        .btn-add{background:#4caf50;color:#fff} .btn-add:hover{background:#45a049}
+        .btn-edit{background:#2196f3;color:#fff} .btn-edit:hover{background:#0b7dda}
+        .btn-delete{background:#f44336;color:#fff} .btn-delete:hover{background:#da190b}
+
+        .modal{display:none;position:fixed;z-index:200;padding-top:80px;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,.5)}
+        .modal-content{background:#fefefe;margin:auto;padding:20px;border-radius:12px;width:90%;max-width:500px;position:relative}
+        .close{color:#aaa;font-size:28px;font-weight:bold;cursor:pointer;position:absolute;right:14px;top:8px}
+        .close:hover{color:#000}
+        .modal-content input{width:100%;padding:8px;margin:6px 0}
+        .modal-content button{margin-top:12px;padding:10px 20px;cursor:pointer}
+
+        /* Logout action card */
+        .logout-card{grid-column:1/-1;display:flex;justify-content:center;margin-top:24px}
+        .action-card{max-width:360px;width:100%;border-radius:40px;padding:14px 20px;display:flex;align-items:center;gap:16px;justify-content:center;text-decoration:none;color:#fff;background:linear-gradient(135deg,#ff6b6b 0%,#ee5a52 100%);box-shadow:0 8px 25px rgba(255,107,107,.3)}
+        .action-icon{width:56px;height:56px;font-size:24px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+        .action-title{color:#fff;font-size:18px;margin-bottom:4px}
+        .action-description{color:rgba(255,255,255,.95);font-size:13px}
+
+        @media(max-width:768px){
+            .top-header-content{flex-direction:column;gap:15px}
+            .dashboard-title{font-size:2.2rem}
+            .user-details{grid-template-columns:1fr;text-align:center}
+            .user-details-grid{grid-template-columns:1fr}
+            .main-container{padding:20px 15px}
+            .table th,.table td{padding:12px 8px}
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <div class="top-header-content">
+            <div class="brand-info">
+                <div class="logo-mini"><img src="/static/images/logo.svg" alt="OCP Group"></div>
+                <span style="font-weight:700;color:#00a651">| AstreintePro</span>
+            </div>
+            <div class="user-welcome">
+                <div class="chef-badge">Chef de Service</div>
+                <a href="{% url 'home' %}" class="home-link">← Accueil</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="dashboard-header">
+            <h1 class="dashboard-title">Tableau de Bord Chef</h1>
+            <p class="dashboard-subtitle">Gestion d'équipe et supervision</p>
+        </section>
+
+        <section class="user-info-card" aria-labelledby="chef-info">
+            <div class="user-details">
+                <div class="user-avatar" aria-hidden="true">{{ chef.prenom.0|upper }}</div>
+                <div class="user-text">
+                    <div class="user-name">Bienvenue Chef {{ chef.prenom }}</div>
+                </div>
+            </div>
+
+            <div class="user-details-grid" id="chef-info">
+                <div class="detail-item">
+                    <div class="detail-label">Nom d'utilisateur</div>
+                    <div class="detail-value">{{ chef.username }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">{{ chef.email }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Téléphone</div>
+                    <div class="detail-value">{{ chef.telephone }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Service</div>
+                    <div class="detail-value">{{ chef.service.nom_service }}</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="collaborateurs-section" aria-labelledby="collab-title">
+            <h2 class="section-title" id="collab-title">👥 Collaborateurs de votre service</h2>
+
+            <div class="table-container"></div>
+                <table class="table" role="table" aria-describedby="collab-title">
+                    <thead>
+                        <tr>
+                            <th>Matricule</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in collaborateurs %}
+                        <tr data-id="{{ c.id }}">
+                            <td><strong class="cell-matricule">{{ c.matricule }}</strong></td>
+                            <td class="cell-nom">{{ c.nom }}</td>
+                            <td class="cell-prenom">{{ c.prenom }}</td>
+                            <td class="cell-email">{{ c.email }}</td>
+                            <td class="cell-telephone">{{ c.telephone }}</td>
+                            <td>
+                                <button type="button" class="btn-action btn-add" onclick="openAddModal()" title="Ajouter">Ajouter</button>
+                                <button class="btn-small btn-edit" onclick="openEditModal('{{ c.id }}')">Modifier</button>
+                                <button class="btn-small btn-delete" onclick="openDeleteModal('{{ c.id }}')">supprimer</button>
+
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="empty-state">Aucun collaborateur assigné à votre service</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="logout-card">
+            <a href="{% url 'logout_chef' %}" class="action-card logout" role="button" aria-label="Déconnexion">
+                <div class="action-icon logout">🚪</div>
+                <div style="display:flex;flex-direction:column;align-items:flex-start;">
+                    <div class="action-title">Déconnexion</div>
+                    <div class="action-description">Fermer la session administrateur</div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- Modales -->
+    <div id="modalAdd" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="add-title">
+        <div class="modal-content">
+            <button class="close" aria-label="Fermer" onclick="closeModal('modalAdd')">&times;</button>
+            <h2 id="add-title">Ajouter Collaborateur</h2>
+            <form id="formAdd">
+                <input name="matricule" placeholder="Matricule" required>
+                <input name="nom" placeholder="Nom" required>
+                <input name="prenom" placeholder="Prénom" required>
+                <input name="email" type="email" placeholder="Email" required>
+                <input name="telephone" placeholder="Téléphone" required>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalEdit" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+        <div class="modal-content">
+            <button class="close" aria-label="Fermer" onclick="closeModal('modalEdit')">&times;</button>
+            <h2 id="edit-title">Modifier Collaborateur</h2>
+            <form id="formEdit">
+                <input type="hidden" name="id" id="editId">
+                <input name="matricule" id="editMatricule" placeholder="Matricule" required>
+                <input name="nom" id="editNom" placeholder="Nom" required>
+                <input name="prenom" id="editPrenom" placeholder="Prénom" required>
+                <input name="email" id="editEmail" type="email" placeholder="Email" required>
+                <input name="telephone" id="editTelephone" placeholder="Téléphone" required>
+                <button type="submit">Modifier</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalDelete" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+        <div class="modal-content">
+            <button class="close" aria-label="Fermer" onclick="closeModal('modalDelete')">&times;</button>
+            <h2 id="delete-title">Supprimer Collaborateur</h2>
+            <p>Êtes-vous sûr de vouloir supprimer ce collaborateur ?</p>
+            <button id="confirmDeleteBtn">Supprimer</button>
+        </div>
+    </div>
+
+    <script>
+        // Ouvrir/fermer modales
+        function openAddModal(){ showModal('modalAdd') }
+        function openEditModal(id){
+            // retrouver la ligne via data-id et pré-remplir le formulaire
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            if(!row) return showModal('modalEdit'); // si non trouvé, ouvrir vide
+            document.getElementById('editId').value = id;
+            document.getElementById('editMatricule').value = row.querySelector('.cell-matricule')?.innerText?.trim() || '';
+            document.getElementById('editNom').value = row.querySelector('.cell-nom')?.innerText?.trim() || '';
+            document.getElementById('editPrenom').value = row.querySelector('.cell-prenom')?.innerText?.trim() || '';
+            document.getElementById('editEmail').value = row.querySelector('.cell-email')?.innerText?.trim() || '';
+            document.getElementById('editTelephone').value = row.querySelector('.cell-telephone')?.innerText?.trim() || '';
+            showModal('modalEdit');
+        }
+        function openDeleteModal(id){
+            document.getElementById('confirmDeleteBtn').onclick = function(){ deleteCollaborateur(id) };
+            showModal('modalDelete');
+        }
+        function showModal(id){
+            const m = document.getElementById(id);
+            if(m){ m.style.display='block'; m.setAttribute('aria-hidden','false') }
+        }
+        function closeModal(id){
+            const m = document.getElementById(id);
+            if(m){ m.style.display='none'; m.setAttribute('aria-hidden','true') }
+        }
+
+        // Fermer modale si clic à l'extérieur
+        window.addEventListener('click', (e) => {
+            ['modalAdd','modalEdit','modalDelete'].forEach(id => {
+                const modal = document.getElementById(id);
+                if(modal && e.target === modal) closeModal(id);
+            });
+        });
+
+        // Actions forms (placeholders — remplacer par fetch/ajax vers backend)
+        document.getElementById('formAdd').addEventListener('submit', function(e){
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    fetch("{% url 'add_collaborateur' %}", { // ton endpoint Django
+        method: "POST",
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            closeModal('modalAdd');
+            // ajouter dynamiquement la ligne au tableau
+            const tbody = document.querySelector('.table tbody');
+            const newRow = document.createElement('tr');
+            newRow.setAttribute('data-id', data.collaborateur.id);
+            newRow.innerHTML = `
+                <td class="cell-matricule"><strong>${data.collaborateur.matricule}</strong></td>
+                <td class="cell-nom">${data.collaborateur.nom}</td>
+                <td class="cell-prenom">${data.collaborateur.prenom}</td>
+                <td class="cell-email">${data.collaborateur.email}</td>
+                <td class="cell-telephone">${data.collaborateur.telephone}</td>
+                <td>
+                    <button class="btn-action btn-add" onclick="openAddModal()">➕</button>
+                    <button class="btn-action btn-edit" onclick="openEditModal('${data.collaborateur.id}')">✏️</button>
+                    <button class="btn-action btn-delete" onclick="openDeleteModal('${data.collaborateur.id}')">🗑️</button>
+                </td>`;
+            tbody.appendChild(newRow);
+        } else {
+            alert(data.error);
+        }
+    })
+    .catch(err => console.error(err));
+});
+
+        document.getElementById('formEdit').addEventListener('submit', function(e){
+            e.preventDefault();
+            const form = Object.fromEntries(new FormData(this).entries());
+            alert('Modifier (démo): ' + JSON.stringify(form));
+            closeModal('modalEdit');
+            // TODO: envoyer au serveur et mettre à jour la ligne correspondante
+        });
+
+        function deleteCollaborateur(id){
+            // TODO: requête réelle au backend pour supprimer l'élément
+            alert('Collaborateur ' + id + ' supprimé (démo) !');
+            closeModal('modalDelete');
+            // Optionnel: retirer la ligne du DOM après suppression réussie
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            if(row) row.remove();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>À propos de notre application</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+
+  <h2 class="text-center mb-4">ℹ️ À propos de notre application</h2>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-primary text-white">🚀 Notre mission</div>
+    <div class="card-body">
+      <p>
+        Cette application a été conçue pour <strong>simplifier la gestion des gardes et des indisponibilités</strong> 
+        au sein de l’entreprise.  
+        Elle permet d’assurer une organisation claire, équitable et automatisée entre collaborateurs, secrétaires et administrateurs.
+      </p>
+    </div>
+  </div>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-success text-white">👨‍👩‍👧‍👦 Utilisateurs</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Collaborateurs :</strong> déclarer leurs indisponibilités, consulter leur planning.</li>
+        <li><strong>Secrétaires :</strong> valider/refuser les indisponibilités, consulter les plannings.</li>
+        <li><strong>Administrateurs :</strong> supervision générale, gestion des services, collaborateurs et plannings.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-warning text-dark">✨ Fonctionnalités principales</div>
+    <div class="card-body">
+      <ul>
+        <li>Déclaration et validation des indisponibilités.</li>
+        <li>Génération automatique des plannings de week-end.</li>
+        <li>Équilibre et rotation entre collaborateurs pour plus de justice.</li>
+        <li>Notifications par email aux utilisateurs concernés.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-info text-dark">🏢 Contexte</div>
+    <div class="card-body">
+      <p>
+        Développée dans le cadre du stage à <strong>OCP</strong>, cette solution vise à moderniser 
+        et automatiser la gestion des astreintes afin de gagner en efficacité et transparence.
+      </p>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Retour à l'accueil</a>
+  </div>
+
+</body>
+</html>

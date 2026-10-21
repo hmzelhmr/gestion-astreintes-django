@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déclarer Indisponibilité - OCP Group</title>
+    <style>
+       :root{
+          --accent: #00a651; /* couleur focalisée */
+          --accent-conflict: #ff6b6b; /* couleur en conflit (sera appliquée plus bas) */
+       }
+
+       * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+       }
+
+       body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+          background: linear-gradient(135deg, #bcdaaf 0%, #3bc729 100%);
+          min-height: 100vh;
+          padding: 12px; /* réduit l'espacement autour pour maximiser l'espace visible */
+       }
+
+       .container {
+          max-width: 440px; /* réduit encore un peu la largeur pour rendre le formulaire plus compact */
+          width: 100%;
+          margin: 0 auto;
+       }
+
+       .header-section {
+          text-align: center;
+          margin-bottom: 12px;
+       }
+
+       .back-link {
+          position: absolute;
+          top: 14px;
+          left: 14px;
+          background: rgba(255, 255, 255, 0.9);
+          color: #333;
+          padding: 8px 12px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          backdrop-filter: blur(6px);
+          font-size: 14px;
+       }
+
+       .back-link:hover {
+          background: white;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+       }
+       .page-title {
+          font-size: 1.8rem; /* réduit la taille du titre */
+          font-weight: 700;
+          color: #333;
+          margin: 8px 0 6px;
+          text-align: center;
+       }
+
+       .page-subtitle {
+          color: #666;
+          font-size: 15px;
+          margin-bottom: 14px;
+          text-align: center;
+       }
+
+    .form-card {
+              background: white;
+              border-radius: 14px;
+              padding: 24px; /* réduit le padding pour diminuer la taille visuelle */
+              box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+              border: 1px solid rgba(255, 255, 255, 0.15);
+              min-height: 450px; /* retire la hauteur fixe pour un meilleur centrage */
+              width: 100%;
+              max-width: 640px; /* limite la largeur et permet le centrage horizontal */
+              margin: 24px auto; /* centre horizontalement */
+              display: flex;
+              flex-direction: column;
+              align-items: stretch; /* les champs prennent toute la largeur du card */
+           }
+
+       .form-group {
+          margin-bottom: 16px;
+       }
+
+       .form-label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: 500;
+          color: #333;
+          font-size: 14px;
+       }
+
+       .form-control {
+          width: 100%;
+          padding: 10px 12px; /* réduit le padding pour compacter les champs */
+          border: 1.5px solid #e0e0e0;
+          border-radius: 10px;
+          font-size: 14px;
+          transition: all 0.2s ease;
+          background: #f8f9fa;
+       }
+
+       /* Règle :focus principale — focalisée sur --accent (#00a651) */
+       .form-control:focus {
+          outline: none;
+          border-color: var(--accent);
+          background: white;
+          box-shadow: 0 0 0 6px rgba(0, 166, 81, 0.08); /* allégé */
+          transform: translateY(-1px);
+       }
+
+       textarea.form-control {
+          min-height: 140px; /* augmente la hauteur du textarea pour plus d'espace */
+          resize: vertical;
+       }
+
+       .date-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px; /* réduit l'espace entre les colonnes */
+       }
+
+       .btn-group {
+          display: flex;
+          gap: 10px;
+          margin-top: 18px;
+       }
+
+       .btn-primary {
+          background: linear-gradient(135deg, #99e692 0%, #0ff01b 100%);
+          color: white;
+          padding: 10px 16px; /* boutons plus compacts */
+          border: none;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 3px 10px rgba(229, 62, 62, 0.2);
+          flex: 1;
+       }
+
+       .btn-primary:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(10, 141, 54, 0.25);
+       }
+
+       .btn-secondary {
+          background: linear-gradient(135deg, #4dc9a4 0%, #076d6d 100%);
+          color: white;
+          padding: 10px 16px;
+          border: none;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-decoration: none;
+          text-align: center;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+       }
+
+       .btn-secondary:hover {
+          transform: translateY(-1px);
+          text-decoration: none;
+          color: rgba(116, 112, 112, 0.9);
+       }
+
+       .required-field::after {
+          content: ' *';
+          color: var(--accent);
+       }
+
+       .info-box {
+          background: rgba(54, 162, 235, 0.07);
+          border: 1px solid rgba(54, 162, 235, 0.14);
+          border-radius: 8px;
+          padding: 10px;
+          margin-bottom: 14px;
+          color: #1e40af;
+          font-size: 13px;
+       }
+
+       /* Conflit intentionnel : règle de focus contradictoire placée après.
+         Elle remplace la mise en évidence verte par une mise en évidence rouge. */
+       .form-control:focus {
+          border-color: var(--accent-conflict);
+          box-shadow: 0 0 0 6px rgba(255, 107, 107, 0.08);
+          /* résultat visuel : conflit entre la couleur focalisée attendue (#00a651) et cette règle */
+       }
+
+       @media (max-width: 768px) {
+          .date-row {
+          grid-template-columns: 1fr;
+          }
+
+          .btn-group {
+          flex-direction: column;
+          }
+
+          .form-card {
+          padding: 16px 14px;
+          margin: 8px;
+          min-height: auto; /* annule la min-height sur petits écrans */
+          }
+
+          .page-title {
+          font-size: 1.4rem;
+          }
+
+          .container {
+          padding: 6px;
+          max-width: 100%;
+          }
+
+          .back-link {
+          position: relative;
+          top: auto;
+          left: auto;
+          margin-bottom: 12px;
+          display: inline-block;
+          padding: 8px 10px;
+          }
+       }
+       </style>
+</head>
+<body>
+    <a href="{% url 'dashboard_collaborateur' %}" class="back-link">← Retour</a>
+    
+    <div class="container">
+        <div class="brand-info" style="display:flex;align-items:center;gap:10px;justify-content:center;">
+            <div class="logo-mini" style="display:flex;align-items:center;">
+                <img src="/static/images/logo-white.svg" alt="OCP Group" style="max-height:48px;">
+            </div>
+            <span style="font-weight:700;color:white;white-space:nowrap;">|&nbsp;AstreintePro</span>
+        </div>
+            </div>
+            <h1 class="page-title">Déclarer une Indisponibilité</h1>
+            <p class="page-subtitle">Soumettre une demande d'absence</p>
+        </div>
+
+        <div class="form-card">
+            <div class="info-box">
+                <strong>Information :</strong> Votre demande sera soumise à validation par votre responsable hiérarchique.
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="date-row">
+                    <div class="form-group">
+                        <label for="date_debut" class="form-label required-field">Date début</label>
+                        <input type="date" name="date_debut" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_fin" class="form-label required-field">Date fin</label>
+                        <input type="date" name="date_fin" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="raison" class="form-label">Raison (optionnel)</label>
+                    <textarea name="raison" class="form-control" placeholder="Décrivez brièvement la raison de votre indisponibilité..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn-primary">Enregistrer la Demande</button>
+                    <a href="{% url 'mes_indisponibilites' %}" class="btn-secondary">mes indisponibilités</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

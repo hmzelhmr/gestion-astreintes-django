@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OCP Group - Notre Stratégie</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header supérieur avec langues et contacts */
+        .top-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .top-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-header a {
+            color: #666;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .top-header a:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 5px;
+        }
+
+        .language-selector a {
+            font-weight: 500;
+            padding: 3px 8px;
+        }
+
+        .language-selector a.active {
+            color: #00a651;
+            font-weight: 600;
+        }
+
+        /* Navigation principale */
+        .main-nav {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .main-nav.scrolled {
+            top: 0;
+            background: rgba(0, 0, 0, 0.98);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            margin-right: 15px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+            
+
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 25px 20px;
+            display: block;
+            font-weight: 400;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-item:hover .nav-link {
+            color: #00a651;
+            border-bottom-color: #00a651;
+        }
+
+        .nav-link.active {
+            color: #00a651;
+            border-bottom-color: #00a651;
+        }
+
+        /* Dropdown pour les connexions */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-out;
+            z-index: 1001;
+        }
+
+        .dropdown-content.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            color: #333 !important;
+            padding: 12px 30px !important;
+            border-bottom: none !important;
+            display: block !important;
+            font-size: 14px !important;
+            transition: background-color 0.2s ease, color 0.2s ease !important;
+            text-decoration: none;
+        }
+
+        .dropdown-link:hover {
+            background: #f8f9fa !important;
+            color: #00a651 !important;
+        }
+
+        /* Menu mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1002;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu-list .nav-link {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+
+        .mobile-dropdown-links {
+            background: rgba(255, 255, 255, 0.05);
+            margin-left: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .mobile-dropdown-links .dropdown-link {
+            color: white !important;
+            padding: 15px 20px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Hero Section Stratégie */
+        .strategie-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="strategieGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23004d2b;stop-opacity:0.8"/><stop offset="50%" style="stop-color:%2300a651;stop-opacity:0.6"/><stop offset="100%" style="stop-color:%23005533;stop-opacity:0.9"/></linearGradient></defs><rect width="1200" height="600" fill="url(%23strategieGrad)"/><circle cx="200" cy="150" r="80" fill="rgba(255,255,255,0.1)"/><circle cx="800" cy="400" r="120" fill="rgba(255,255,255,0.05)"/><circle cx="1000" cy="200" r="100" fill="rgba(255,255,255,0.08)"/></svg>') center/cover;
+            height: 70vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            text-align: center;
+            color: white;
+            position: relative;
+            margin-top: 120px;
+        }
+
+        .strategie-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 Q40,20 60,50 T100,50" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/><path d="M0,30 Q20,60 40,30 T80,30" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/></svg>') repeat;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .strategie-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .strategie-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            line-height: 1.1;
+        }
+
+        .strategie-hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            opacity: 0.9;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 13px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .breadcrumb-content {
+            
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb-nav a {
+            color: #00a651;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-nav a:hover {
+            color: #007a3d;
+        }
+
+        .breadcrumb-separator {
+            color: #999;
+        }
+
+        /* Section principale */
+        .strategie-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .strategie-section h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 2rem;
+            color: #00a651;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .strategie-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #00a651, #005533);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .strategie-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Cards stratégie */
+        .strategie-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .strategie-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 166, 81, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strategie-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00a651, #005533);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .strategie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 166, 81, 0.15);
+        }
+
+        .strategie-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .strategie-card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #00a651, #005533);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 166, 81, 0.3);
+        }
+
+        .strategie-card h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .strategie-card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* Section statistiques */
+        .stats-section {
+            background: linear-gradient(135deg, #00a651, #005533);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: #f8f9fa;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #00a651;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #008a44;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 166, 81, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-link {
+                padding: 25px 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                display: none;
+            }
+            
+            .main-nav {
+                top: 0;
+            }
+            
+            .strategie-hero {
+                margin-top: 80px;
+                height: 60vh;
+                min-height: 400px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .strategie-section {
+                padding: 60px 15px;
+            }
+            
+            .strategie-cards {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+            
+            .strategie-card {
+                padding: 2rem;
+            }
+            
+            .stats-section {
+                padding: 60px 15px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                height: 60px;
+                padding: 0 10px;
+            }
+            
+            .logo {
+                font-size: 18px;
+            }
+            
+            .logo-img {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+            
+            .strategie-hero {
+                height: 50vh;
+                min-height: 350px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Amélioration de l'accessibilité */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles */
+        .nav-link:focus,
+        .dropdown-link:focus,
+        .cta-button:focus {
+            outline: 2px solid #00a651;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header supérieur -->
+    <div class="top-header">
+        <div class="top-header-content">
+            <a href="#" class="top-link">Carrières</a>
+            <a href="#" class="top-link">Contact</a>
+            <div class="language-selector">
+                <a href="#" class="active">FR</a>
+                <a href="#">EN</a>
+                <a href="#">AR</a>
+            </div>
+        </div>
+    </div>
+
+    
+                 <!-- Navigation principale -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo" aria-label="OCP Group">
+             <img src="/static/images/logo-white.svg" alt="OCP Group" class="logo-img">
+            </a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" id="connexions-link">Connexions</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'login_admin' %}" class="dropdown-link">
+                            Connexion Admin
+                        </a>
+                        <a href="{% url 'login_secretaire' %}" class="dropdown-link">
+                            Connexion Secrétaire
+                        </a>
+                        <a href="{% url 'login_collaborateur' %}" class="dropdown-link">
+                            Connexion Collaborateur
+                        </a>
+                        <a href="{% url 'login_chef' %}" class="dropdown-link">
+                            Connexion Chef de Service
+                        </a>
+                        
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+    <a href="#" class="nav-link">À propos</a>
+    <div class="dropdown-content">
+        <a href="{% url 'a_propos' %}" class="dropdown-link">
+            <span>À propos <div class="dropdown-icon">&gt;</div></span>
+        </a>
+        <a href="#" class="dropdown-link">
+            <span>Qu'est-ce que le phosphate? <div class="dropdown-icon">&gt;</div></span>
+        </a>
+        <a href="#" class="dropdown-link has-sub-menu">
+            <span>Notre histoire <div class="dropdown-icon">&gt;</div></span>
+            
+        </a>
+        <a href="#" class="dropdown-link has-sub-menu">
+            <span>Notre Groupe, nos partenaires et nos activités <div class="dropdown-icon">&gt;</div></span>
+        </a>
+        <a href="#" class="dropdown-link">
+            <span>Notre gouvernance  <div class="dropdown-icon">&gt;</div> </span>
+        </a>
+        <a href="#" class="dropdown-link">
+            <span>Développement durable <div class="dropdown-icon">&gt;</div></span>
+        </a>
+    </div>
+</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">Stratégie</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'planning_weekend' %}" class="nav-link">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Investisseurs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Médias</a>
+                </li>
+            </ul>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <div class="logo">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%2300a651'/><text x='50' y='60' text-anchor='middle' fill='white' font-size='24' font-weight='bold'>OCP</text></svg>" alt="OCP Group" style="width: 35px; height: 35px; margin-right: 10px;">
+                OCP Group
+            </div>
+            <button class="mobile-close-btn" id="mobileCloseBtn">×</button>
+        </div>
+        <ul class="mobile-menu-list">
+            <li>
+                <a href="#" class="nav-link">Connexions</a>
+                <div class="mobile-dropdown-links">
+                    <a href="#" class="dropdown-link">Connexion Admin</a>
+                    <a href="#" class="dropdown-link">Connexion Secrétaire</a>
+                    <a href="#" class="dropdown-link">Connexion Collaborateur</a>
+                    <a href="#" class="dropdown-link">Connexion Chef de Service</a>
+                </div>
+            </li>
+            <li><a href="#" class="nav-link">À propos</a></li>
+            <li><a href="#" class="nav-link active">Stratégie</a></li>
+            <li><a href="#" class="nav-link">Planning</a></li>
+            <li><a href="#" class="nav-link">Investisseurs</a></li>
+            <li><a href="#" class="nav-link">Médias</a></li>
+        </ul>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-content">
+            <nav class="breadcrumb-nav" aria-label="Fil d'Ariane">
+                <a href="#">Accueil</a>
+                <span class="breadcrumb-separator">›</span>
+                <span>Stratégie</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section Stratégie -->
+    <section class="strategie-hero">
+        <div class="strategie-hero-content">
+            <h1>Notre Stratégie</h1>
+            <p class="strategie-hero-subtitle">
+                Construire un avenir durable grâce à l'innovation, l'équité et l'excellence opérationnelle
+            </p>
+        </div>
+    </section>
+
+    <!-- Section principale -->
+    <section class="strategie-section">
+        <h2>Construire un avenir durable</h2>
+        <p>
+            Notre stratégie repose sur l'innovation, l'équilibre et la durabilité. 
+            Nous mettons en place des outils digitaux comme cette application de gestion 
+            des astreintes pour améliorer l'efficacité, garantir l'équité entre collaborateurs 
+            et optimiser l'organisation interne.
+        </p>
+
+        <div class="strategie-cards">
+            <div class="strategie-card">
+                <div class="strategie-card-icon">⚖️</div>
+                <h3>Équité</h3>
+                <p>Chaque collaborateur est pris en compte équitablement dans le planning, grâce à un système de rotation intelligent qui garantit une répartition juste des responsabilités.</p>
+            </div>
+            <div class="strategie-card">
+                <div class="strategie-card-icon">💡</div>
+                <h3>Innovation Digitale</h3>
+                <p>Nous utilisons les nouvelles technologies pour automatiser la gestion des plannings et des indisponibilités, réduisant ainsi les erreurs et améliorant l'efficacité.</p>
+            </div>
+            <div class="strategie-card">
+                <div class="strategie-card-icon">🌱</div>
+                <h3>Durabilité</h3>
+                <p>Notre objectif est de simplifier les processus, réduire les erreurs humaines et gagner en productivité tout en préservant le bien-être de nos équipes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section statistiques -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <h2 class="stats-title">Notre Impact en Chiffres</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Collaborateurs gérés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Satisfaction équipe</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50%</div>
+                    <div class="stat-label">Réduction erreurs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Disponibilité système</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Rejoignez notre vision stratégique</h2>
+            <p class="cta-text">
+                Découvrez comment nos outils de gestion innovants peuvent transformer votre organisation 
+                et améliorer l'efficacité de vos équipes.
+            </p>
+            <a href="#" class="cta-button">En savoir plus</a>
+        </div>
+    </section>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 40) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Menu mobile
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        mobileCloseBtn.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Fermer menu mobile si clic sur lien
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Gestion des dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            const connexionsLink = document.querySelector('.dropdown > .nav-link');
+            const dropdownContent = document.querySelector('.dropdown-content');
+
+            if (connexionsLink && dropdownContent) {
+                connexionsLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    dropdownContent.classList.toggle('show');
+                });
+
+                // Fermer le dropdown si clic en dehors
+                document.addEventListener('click', function(e) {
+                    if (!connexionsLink.contains(e.target) && !dropdownContent.contains(e.target)) {
+                        dropdownContent.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

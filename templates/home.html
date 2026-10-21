@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OCP Group - Notre Vision pour un Avenir Durable</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+                        background: url("/static/images/OCP - STAGE 1 - 2304_0.jpg") no-repeat center center;
+            background-size: cover;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header supérieur avec langues et contacts */
+        .top-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .top-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .top-header a {
+            color: #666;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .top-header a:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 5px;
+        }
+
+        .language-selector a {
+            font-weight: 500;
+            padding: 3px 8px;
+        }
+
+        .language-selector a.active {
+            color: #00a651;
+            font-weight: 600;
+        }
+
+        /* Navigation principale */
+        .main-nav {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .main-nav.scrolled {
+            top: 0;
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            
+        }
+
+        .logo-icon {
+            width: 145px;
+            height: 145px;
+            margin-right: 15px;
+            background: #00a651;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 25px 20px;
+            display: block;
+            font-weight: 400;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-item:hover .nav-link {
+            color: #00a651;
+            border-bottom-color: #00a651;
+        }
+
+        /* Dropdown pour les connexions */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-out;
+            z-index: 1001;
+        }
+        .dropdown-content.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            color: #333 !important;
+            padding: 12px 30px !important;
+            border-bottom: none !important;
+            display: block !important;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px !important;
+            transition: background-color 0.2s ease, color 0.2s ease !important;
+            text-decoration: none;
+        }
+
+        .dropdown-link:last-child {
+            border-bottom: none !important;
+            
+        }
+
+        .dropdown-link:hover {
+            background: #f8f9fa !important;
+            color: #00a651 !important;
+        }
+
+        .dropdown-icon {
+            width: 15px;
+            height: 15px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .dropdown:hover .dropdown-icon {
+            background: #00a651;
+            color: white;
+        }
+
+        /* Icône de recherche */
+        .search-icon {
+            color: white;
+            font-size: 20px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .search-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #00a651;
+        }
+
+        /* Menu mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1002;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu-list .nav-link {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+
+        .mobile-dropdown-links {
+            background: rgba(255, 255, 255, 0.05);
+            margin-left: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .mobile-dropdown-links .dropdown-link {
+            color: white !important;
+            padding: 15px 20px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Section Hero avec image de fond */
+        .hero {
+            background: url("/static/images/OCP - STAGE 1 - 2304_0.jpg") no-repeat center center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: #00a651;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
+        }
+
+        .hero-cta:hover {
+            background: #008a44;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 166, 81, 0.4);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            opacity: 0.8;
+            animation: bounce 2s infinite;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Section contenu */
+        .content-section {
+            padding: 80px 20px;
+            background: #ffffff;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .content-section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .content-section p {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-menu {
+                gap: 0;
+            }
+            
+            .nav-link {
+                padding: 25px 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                display: none;
+            }
+            
+            .main-nav {
+                top: 0;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .search-icon {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .content-section {
+                padding: 60px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                height: 60px;
+                padding: 0 10px;
+            }
+            
+            .logo {
+                font-size: 18px;
+            }
+            
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+            
+            .hero-cta {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+        }
+
+        /* Amélioration de l'accessibilité */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles */
+        .nav-link:focus,
+        .dropdown-link:focus,
+        .hero-cta:focus {
+            outline: 2px solid #00a651;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header supérieur -->
+    <div class="top-header">
+        <div class="top-header-content">
+            <a href="#" class="top-link">Carrières</a>
+            <a href="#" class="top-link">Contact</a>
+            <div class="language-selector">
+                <a href="#" class="active">FR</a>
+                <a href="#">EN</a>
+                <a href="#">AR</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation principale -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-container">
+            <a href="{% url 'home' as home_url %}{{ home_url|default:'#' }}" class="logo" aria-label="OCP Group">
+             <img src="/static/images/logo-white.svg" alt="OCP Group" class="logo-img">
+            </a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" id="connexions-link">Connexions</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'login_admin' as login_admin_url %}{{ login_admin_url|default:'#' }}" class="dropdown-link">
+                            Connexion Admin
+                        </a>
+                        <a href="{% url 'login_secretaire' as login_secretaire_url %}{{ login_secretaire_url|default:'#' }}" class="dropdown-link">
+                            Connexion Secrétaire
+                        </a>
+                        <a href="{% url 'login_collaborateur' as login_collaborateur_url %}{{ login_collaborateur_url|default:'#' }}" class="dropdown-link">
+                            Connexion Collaborateur
+                        </a>
+                        <a href="{% url 'login_chef' as login_chef_url %}{{ login_chef_url|default:'#' }}" class="dropdown-link">
+                            Connexion Chef de Service
+                        </a>
+                        
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+    <a href="#" class="nav-link">À propos</a>
+    <div class="dropdown-content">
+        <a href="{% url 'a_propos' as a_propos_url %}{{ a_propos_url|default:'#' }}" class="dropdown-link">
+            <span>À propos <div class="dropdown-icon">&gt;</div></span>
+        </a>
+        <a href="#" class="dropdown-link">
+            <span>Qu'est-ce que le phosphate? <div class="dropdown-icon">&gt;</div></span>
+        </a>
+        <a href="#" class="dropdown-link has-sub-menu">
+            <span>Notre histoire <div class="dropdown-icon">&gt;</div></span>
+            
+        </a>
+        <a href="#" class="dropdown-link has-sub-menu">
+            <span>Notre Groupe, nos partenaires et nos activités <div class="dropdown-icon">&gt;</div></span>
+        </a>
+        <a href="#" class="dropdown-link">
+            <span>Notre gouvernance  <div class="dropdown-icon">&gt;</div> </span>
+        </a>
+        <a href="#" class="dropdown-link">
+            <span>Développement durable <div class="dropdown-icon">&gt;</div></span>
+        </a>
+    </div>
+</li>
+                
+                <li class="nav-item">
+                    <a href="{% url 'strategie' as strategie_url %}{{ strategie_url|default:'#' }}" class="nav-link">Stratégie</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'planning_weekend' as planning_weekend_url %}{{ planning_weekend_url|default:'#' }}" class="nav-link">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Investisseurs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Médias</a>
+                </li>
+            </ul>
+
+            <div class="search-icon">🔍</div>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <div class="logo">
+                <div class="logo-icon">OCP</div>
+                OCP Group
+            </div>
+            <button class="mobile-close-btn" id="mobileCloseBtn">×</button>
+        </div>
+        <ul class="mobile-menu-list">
+            <li>
+                <a href="#" class="nav-link">Connexions</a>
+                <div class="mobile-dropdown-links">
+                    <a href="{% url 'login_admin' as login_admin_url %}{{ login_admin_url|default:'#' }}" class="dropdown-link">
+                        Connexion Admin
+                    </a>
+                    <a href="{% url 'login_secretaire' as login_secretaire_url %}{{ login_secretaire_url|default:'#' }}" class="dropdown-link">
+                        Connexion Secrétaire
+                    </a>
+                    <a href="{% url 'login_collaborateur' as login_collaborateur_url %}{{ login_collaborateur_url|default:'#' }}" class="dropdown-link">
+                        Connexion Collaborateur
+                    </a>
+                    <a href="{% url 'login_chef' as login_chef_url %}{{ login_chef_url|default:'#' }}" class="dropdown-link">
+                        Connexion Chef de Service
+                    </a>
+                </div>
+            </li>
+            <li><a href="{% url 'a_propos' as a_propos_url %}{{ a_propos_url|default:'#' }}" class="nav-link">À propos</a></li>
+            <li><a href="{% url 'strategie' as strategie_url %}{{ strategie_url|default:'#' }}" class="nav-link">Stratégie</a></li>
+            <li><a href="#" class="nav-link">Produits et solutions</a></li>
+            <li><a href="#" class="nav-link">Investisseurs</a></li>
+            <li><a href="#" class="nav-link">Médias</a></li>
+        </ul>
+    </div>
+
+    <!-- Section Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Notre vision pour un avenir durable</h1>
+            <p class="hero-subtitle">
+                Leader mondial des phosphates, OCP œuvre pour nourrir les terres et nourrir le monde de manière durable et responsable.
+            </p>
+            <a href="#content" class="hero-cta">Découvrir notre mission</a>
+        </div>
+        <div class="scroll-indicator">Découvrir</div>
+    </section>
+
+    <!-- Section contenu -->
+    <section class="content-section" id="content">
+        <div class="content-container">
+            <h2>Excellence & Innovation au service de l'Agriculture</h2>
+            <p>
+                Depuis plus de 100 ans, OCP Group s'engage à développer des solutions innovantes pour l'agriculture mondiale. 
+                Notre expertise dans l'extraction, la transformation et la commercialisation des phosphates nous permet de 
+                contribuer à la sécurité alimentaire mondiale tout en préservant l'environnement.
+            </p>
+            <p>
+                Avec nos installations de classe mondiale et notre engagement envers la durabilité, nous façonnons l'avenir 
+                de l'industrie des fertilisants et soutenons les agriculteurs du monde entier.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 40) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Menu mobile
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        mobileCloseBtn.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Fermer menu mobile si clic sur lien
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Gestion des clics sur les liens de connexion
+        document.querySelectorAll('.dropdown-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+               // e.preventDefault(); 
+                const linkText = this.textContent.trim();
+                
+                // Effet visuel
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+                
+                // Simulation de redirection
+                console.log('Redirection vers:', linkText);
+               // alert(`Redirection vers: ${linkText}`);
+            });
+        });
+
+        // Fermer dropdown si clic ailleurs
+        document.addEventListener('DOMContentLoaded', function() {
+    const connexionsLink = document.querySelector('.dropdown > .nav-link');
+    const dropdownContent = document.querySelector('.dropdown-content');
+
+    // Gérer l'affichage au clic
+    connexionsLink.addEventListener('click', function(e) {
+        // Empêche la navigation et le comportement par défaut du lien
+        e.preventDefault(); 
+        
+        // Bascule (ajoute/retire) la classe 'show' sur le menu
+        dropdownContent.classList.toggle('show');
+    });
+
+    // Fermer le menu si on clique ailleurs sur la page
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            dropdownContent.classList.remove('show');
+        }
+    });
+
+    // Optionnel : conserver le code d'origine pour l'effet visuel des liens
+    document.querySelectorAll('.dropdown-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // e.preventDefault();  <-- Assurez-vous que cette ligne est bien commentée si vous l'aviez ajoutée.
+            console.log('Redirection vers:', this.textContent.trim());
+        });
+    });
+});
+    </script>
+</body>
+</html>
