@@ -1,21 +1,26 @@
-# Gestion des Astreintes
+# Gestion d’Astreintes — Django
 
-Application web Django pour la gestion des utilisateurs, des accès et des autorisations dans un contexte administratif.
+Application web de gestion des plannings d’astreinte, avec génération automatique de PDF et envoi par email aux collaborateurs.
 
+🔗 Repository GitHub : gestion-astreintes-django
 ## Présentation
 
-Ce projet a été conçu pour centraliser la gestion des comptes utilisateurs, les droits d’accès et l’administration des ressources d’un système interne. Il s’appuie sur le framework Django et propose une architecture simple et extensible pour évoluer facilement selon les besoins métier.
+Gestion d’Astreintes est une application web développée avec Django et Python pour simplifier la gestion des périodes d’astreinte au sein d’une organisation.
+
+Elle permet de centraliser les informations des collaborateurs, de planifier les astreintes, de générer des documents PDF personnalisés et de transmettre les plannings par email.
+
+L’objectif est de réduire les tâches manuelles, d’améliorer la communication et de faciliter le suivi des astreintes.
 
 ## Fonctionnalités principales
 
-- Gestion des utilisateurs
-- Gestion des accès et des droits
-- Authentification Django native
-- Interface d’administration Django
-- Templates personnalisés pour l’interface web
-- Gestion des fichiers statiques (CSS, JS, images)
-- Intégration avec une base de données MySQL
-- Support de l’envoi d’e-mails via SMTP
+- Gestion des collaborateurs : ajout, modification, consultation et suppression.
+- Gestion des astreintes : création et suivi des périodes d’astreinte.
+- Tableau de bord : aperçu des collaborateurs, des astreintes et des prochaines périodes.
+- Génération de PDF : création de documents contenant les informations du planning.
+- Envoi par email : transmission des PDF aux collaborateurs concernés.
+- Automatisation : possibilité de planifier l’envoi des documents.
+- Interface web : gestion centralisée des données depuis un navigateur
+
 
 ## Stack technique
 
@@ -23,8 +28,7 @@ Ce projet a été conçu pour centraliser la gestion des comptes utilisateurs, l
 - Django 5.2
 - MySQL
 - HTML / CSS / JavaScript
-- Bootstrap ou templates front-end personnalisés (selon structure du projet)
-
+- Bootstrap 
 ## Structure du projet
 
 ```text
@@ -73,7 +77,6 @@ cd gestion-astreintes-django
 
 ```bash
 python -m venv venv
-source venv/bin/activate   # Linux/macOS
 venv\Scripts\activate      # Windows
 ```
 
@@ -158,22 +161,12 @@ Le fichier `settings.py` contient également une clé secrète vide (`SECRET_KEY
 - Séparer les configurations de développement et de production
 - Vérifier régulièrement les migrations Django
 
-## Contribution
-
-Les contributions sont les bienvenues. Vous pouvez proposer des améliorations, signaler des bugs ou soumettre des correctifs via une pull request.
-
 ## Licence
 
-Ce projet n’a pas de licence explicitement définie dans le dépôt. Si besoin, il est conseillé d’ajouter une licence adaptée avant une mise en production.
+Ce projet n’a pas de licence explicitement définie dans le dépôt. 
 
 ## Auteur
 
-Projet développé dans le cadre de la gestion des utilisateurs et des accès avec Django.
+Projet développé dans le cadre de mon stage d'observation au sien de 'OCP Group' dans le cadre de la gestion des utilisateurs et des accès avec Django.
 
 ---
-
-Si vous souhaitez, je peux aussi créer une version encore plus professionnelle avec :
-- un badge de statut,
-- une section "Captures d’écran",
-- une architecture détaillée,
-- ou un README en anglais et français.
