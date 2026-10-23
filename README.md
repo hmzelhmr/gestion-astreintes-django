@@ -149,17 +149,56 @@ Le fichier `settings.py` contient également une clé secrète vide (`SECRET_KEY
 
 ## Utilisation
 
-- Accéder au site via le navigateur
-- Se connecter avec un compte utilisateur ou un superutilisateur
-- Gérer les comptes et les droits depuis l’interface Django
-- Étendre les fonctionnalités selon les exigences métier
+Après avoir installé les dépendances, configuré l’environnement et lancé le serveur Django, ouvrez l’application dans votre navigateur à l’adresse suivante :
 
-## Bonnes pratiques
+`http://127.0.0.1:8000/`
 
-- Ne jamais committer les identifiants sensibles
-- Utiliser les variables d’environnement en production
-- Séparer les configurations de développement et de production
-- Vérifier régulièrement les migrations Django
+### 1.Accéder à l’application
+
+Connectez-vous à l’application avec un compte autorisé. Si nécessaire, créez un compte administrateur avec la commande `python manage.py createsuperuser`.
+
+### 2.Gérer les collaborateurs
+
+Accédez à la section **Collaborateurs** pour :
+
+- Ajouter un collaborateur avec son nom et son adresse email.
+- Modifier ses informations.
+- Consulter la liste des collaborateurs.
+- Désactiver ou supprimer un collaborateur selon les fonctionnalités disponibles.
+
+### 3.Planifier les astreintes
+
+Dans la section **Astreintes** :
+
+- Sélectionnez le collaborateur concerné.
+- Définissez la date de début et la date de fin.
+- Ajoutez un commentaire si nécessaire.
+- Enregistrez l’astreinte.
+- Consultez ou modifiez les périodes planifiées.
+
+### 4.Générer les plannings PDF
+
+Utilisez la fonctionnalité de génération PDF pour créer un document contenant les informations d’astreinte du collaborateur concerné.
+
+Vérifiez les dates et les informations avant de transmettre le document.
+
+### 5.Envoyer les plannings par email
+
+Configurez les paramètres SMTP nécessaires, puis utilisez la fonctionnalité d’envoi disponible dans l’application pour transmettre les PDF aux adresses email des collaborateurs concernés.
+
+Vérifiez que les emails sont correctement configurés et testez l’envoi avant une utilisation réelle.
+
+### 6.Automatiser les envois
+
+Si l’envoi automatique est configuré dans le projet, utilisez la commande ou la tâche planifiée prévue pour transmettre les plannings selon la fréquence définie.
+
+### Bonnes pratiques
+
+- Vérifiez les adresses email avant chaque envoi.
+- Maintenez les plannings à jour.
+- Protégez les identifiants SMTP et les clés secrètes.
+- Testez l’envoi avec une adresse email de test avant de contacter tous les collaborateurs.
+
 
 ## Licence
 
